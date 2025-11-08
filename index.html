@@ -1,21 +1,94 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <!--文字コード　vieport設定-->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!--タイトル　概要(SEOにも影響)-->
+  <title>ポートフォリオ</title>
+  <meta name="description" content="ポートフォリオです">
+
+  <!-- 正規URL　(SEO対策)-->
+  <!--<link rel="stylesheet" href="アドレスを入れる">-->
+  <!--google  fonts-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+
+  <!--css-->
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/Common.css">
+  <link rel="stylesheet" href="assets/css/contact.css">
+  <link rel="stylesheet" href="assets/css/pages/hame.css">
+  
+
 </head>
 <body>
-  <!--ヘッダー-->
-  <header>
-    <nav id="global_navi">
+  <header class="site-header">
+    <div class="container">
+      <!-- ロゴ -->
+      <h1 class="logo">
+        <a href="/">PORTFOLIO</a>
+      </h1>
+
+      <!-- ナビゲーション -->
+      <nav class="site-nav">
         <ul>
-          <li><a href="index.html">HOME</a></li>
-          <li class="current"><a href="contact.html">お問い合わせ</a></li>
+          <li><a href="/">Home</a></li>
+          <li><a href="#Works">Works</a></li>
+          <li><a href="#Profile">Profile</a></li>
+          <li><a href="#Contact">Comtact</a></li>
         </ul>
       </nav>
 
-  </header>
+      <!--ハンバーガボタン-->
+      <button class="hanburger" aria-label="メニューを開く">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
 
+    <!-- モバイルメニュー　-->
+    <nav class="mobile-nav">
+      <nav class="site-nav">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="#Works">Works</a></li>
+          <li><a href="#Profile">Profile</a></li>
+          <li><a href="#Contact">Comtact</a></li>
+        </ul>
+      </nav>
+    </nav>
+  </header>
+  <main>
+    <section id="fv" class="section fv">
+      <div class="container">
+
+      </div>
+    </section>
+    <section id="works" class="section works">
+      <div class="container">
+
+      </div>
+    </section>
+    <section id="profile" class="section profile">
+      <div class="container">
+
+      </div>
+    </section>
+    <section id="content" class="section content">
+      <div class="container">
+
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container">
+
+    </div>
+  </footer>
 </body>
 </html>

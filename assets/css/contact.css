@@ -1,0 +1,21 @@
+/*ハンバーガメニュー*/
+
+/*ハンバーガボタン*/
+.hanburger{
+    position: relative;
+    z-index: 1100;
+    width: 30px;
+    height: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.hanburger span{
+    display: block;
+    height: 3px;
+    background-color: var(--color-text);
+    border-radius: 2px;
+}

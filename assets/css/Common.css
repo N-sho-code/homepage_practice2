@@ -1,0 +1,48 @@
+
+
+/*共通コンテナ*/
+.container{
+    width: 90%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+/*要約ヘッター*/
+.site-header{
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: var(--color-base);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    z-index: 1000;
+
+}
+.site-header .container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: clamp(10px,1.5vw,15px);
+}
+logo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.logo a{
+    font-size: clamp(10px,2.5vw,20px);
+    font-weight: 700;
+    color: var(--color-text);
+}
+.site-nav ul{
+    display: flex;
+    gap: clamp(10px,2.5vw,20px);
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.site-nav ul a{
+    font-weight: 700;
+}
+.site-nav ul a:hover{
+    color: var(--color-accent);
+}
