@@ -44,7 +44,7 @@
       </nav>
 
       <!--ハンバーガボタン-->
-      <button class="hanburger" aria-label="メニューを開く">
+      <button class="hamburger" aria-label="メニューを開く">
         <span></span>
         <span></span>
         <span></span>
@@ -52,15 +52,27 @@
     </div>
 
     <!-- モバイルメニュー　-->
-    <nav class="mobile-nav">
-      <nav class="site-nav">
-        <ul>
+    <nav class="mobile-nav drawer-top">
+      <div class="profile-area">
+        <img src="assets/image/home/profile.jpg" alt="プロフィール画像"class="profile-img">
+        <h2 class="profile-name">Your Name</h2>
+        <p class="profile-text">山田次郎</p>
+      </div>
+      <div class="nav-links-area">
+        <ul class="nav-links">
           <li><a href="/">Home</a></li>
           <li><a href="#Works">Works</a></li>
           <li><a href="#Profile">Profile</a></li>
           <li><a href="#Contact">Comtact</a></li>
         </ul>
-      </nav>
+      </div>
+      <div class="social-links-area">
+        <ul class="social-links">
+          <li><a href="#" class="icon twitter"aria-label="Twitter"></a></li>
+          <li><a href="#" class="icon instagram"aria-label="Instagram"></a></li>
+          <li><a href="#" class="icon line"aria-label="Line"></a></li>
+        </ul>
+      </div>
     </nav>
   </header>
   <main>
@@ -90,5 +102,6 @@
 
     </div>
   </footer>
+  <script src="assets/js/header.js"></script>
 </body>
 </html>
