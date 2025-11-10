@@ -16,7 +16,7 @@
 .hamburger span{
     display: block;
     height: 3px;
-    background-color: green;
+    background-color: var(--color-border);
     border-radius: 2px;
     transition: all 0.3s ease; /*ボタン押した際の挙動(三本線)*/
 }
@@ -35,6 +35,22 @@
   }
   .hamburger{
       display: flex;
+  }
+}
+@media (max-width: 768px) {
+  /* (他のモバイル設定...) */
+  
+  /* 1. 通常状態（非アクティブ時）のボタンの色をグリーンに設定 */
+  /* これで通常のハンバーガーアイコンの色が変わるはず */
+  .hamburger span {
+      background-color: green !important; /* !important で強制的に適用 */
+  }
+
+  /* 2. アクティブ状態（×印）のボタンの色もグリーンに設定 */
+  /* active状態のnth-childセレクタは詳細度が高いので、これも上書きが必要 */
+  .hamburger.active span:nth-child(1),
+  .hamburger.active span:nth-child(3) {
+      background-color: green !important; /* !important で強制的に適用 */
   }
 }
  .mobile-nav{
