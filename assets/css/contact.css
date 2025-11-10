@@ -16,7 +16,7 @@
 .hamburger span{
     display: block;
     height: 3px;
-    background-color: var(--color-text);
+    background-color: green;
     border-radius: 2px;
     transition: all 0.3s ease; /*ボタン押した際の挙動(三本線)*/
 }
