@@ -1,7 +1,7 @@
 /*ハンバーガメニュー*/
 
 /*ハンバーガボタン*/
-.hamburger{
+/*.hamburger{
     position: relative;
     z-index: 1100;
     width: 30px;
@@ -12,13 +12,38 @@
     display: none;
     flex-direction: column;
     justify-content: space-between;
+}*/
+
+.hamburger {
+  display: none;
+  flex-direction: column;   /* 必須 */
+  justify-content: space-between; /* 必須 */
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 9999;
+  width: 30px;  /* 必須 */
+  height: 18px; /* 必須 */
+  background: rgba(255,0,0,0.0); /* 背景透過 */
+  border: none;
+  cursor: pointer;
 }
-.hamburger span{
+
+
+
+/*.hamburger span{
     display: block;
     height: 3px;
     background-color: var(--color-border);
     border-radius: 2px;
-    transition: all 0.3s ease; /*ボタン押した際の挙動(三本線)*/
+    transition: all 0.3s ease; //ボタン押した際の挙動(三本線)
+}*/
+.hamburger span {
+  display: block;
+  height: 3px;
+  border-radius: 2px;
+  background-color: var(--color-border); /* 色変更のみOK */
+  transition: all 0.3s ease;
 }
  .hamburger.active span:nth-child(1){
     transform: translateY(5.5px) rotate(45deg);
@@ -29,7 +54,7 @@
  .hamburger.active span:nth-child(3){
     transform: translateY(-7.5px) rotate(-45deg);
  }
- @media (max-width:1024px){
+ @media (max-width:768px){
   .site-nav{
       display: none;
   }
@@ -37,7 +62,8 @@
       display: flex;
   }
 }
-@media (max-width:1024px) {
+
+@media (max-width:768px) {
   /* (他のモバイル設定...) */
   
   /* 1. 通常状態（非アクティブ時）のボタンの色をグリーンに設定 */
@@ -149,3 +175,4 @@
 .sns-icon.line{
   background-image: url(../image/icon/LINE-icon.png);
 }
+
