@@ -5,9 +5,10 @@
 ***
 **機能**  
 スマートフォンでも確認できるように作成しました
-  
-**利用ツール、利用サイト**  
 ***
+
+**利用ツール、利用サイト**  
+  
 ・Visual Studio Code  
 ・ペイント(Microsoft Paint)  
 ・Snipping Tool(画面キャプチャーツール)  
@@ -19,3 +20,4 @@ https://github.co.jp/
 https://github.com/necolas/normalize.css  
 ・ぱくたそ - すべて無料の写真素材・AI画像素材  
 https://www.pakutaso.com/  
+***
