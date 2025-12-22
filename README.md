@@ -18,6 +18,4 @@ https://chatgpt.com/
 https://github.co.jp/   
 ・normalize.css(reset.cssに利用)  
 https://github.com/necolas/normalize.css  
-・ぱくたそ - すべて無料の写真素材・AI画像素材  
-https://www.pakutaso.com/  
 ***
