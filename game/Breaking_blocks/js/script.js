@@ -6,9 +6,12 @@ var y = canvas.height -30;
 
 var dx = 2;
 var dy = -2;
+
+var ballRedius = 10;
+
 function drawBall(){
     ctx.beginPath();
-    ctx.arc(x,y,10,0,Math.PI*2,false);
+    ctx.arc(x,y,ballRedius,0,Math.PI*2,false);
     ctx.fillStyle="#0095DD";
     ctx.fill();
     ctx.closePath();
@@ -16,6 +19,13 @@ function drawBall(){
 function draw(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     drawBall();
+
+    if(y+dy > canvas.height-ballRedius||y+dy < ballRedius){
+        dy = -dy;
+    }
+    if(x+dx > canvas.width -ballRedius||x+dx < ballRedius){
+        dx = -dx;
+    }
     x+=dx;
     y+=dy;
 }
