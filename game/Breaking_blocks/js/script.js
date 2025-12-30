@@ -36,8 +36,12 @@ function draw(){
     drawBall();
     drawPaddle();
 
-    if(y+dy > canvas.height-ballRedius||y+dy < ballRedius){
+    if(y+dy < ballRedius){
         dy = -dy;
+    }else if(y+dy > canvas.height-ballRedius){
+        alert("GAME OVER");
+        document.location.reload();
+        clearInterval(setInterval);
     }
     if(x+dx > canvas.width -ballRedius||x+dx < ballRedius){
         dx = -dx;
@@ -71,5 +75,6 @@ function keyUpHandler(e){
     }
 
 }
+var interval = setInterval(draw,10);
 setInterval(draw,10);
 
