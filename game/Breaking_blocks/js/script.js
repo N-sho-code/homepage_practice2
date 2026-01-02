@@ -16,6 +16,9 @@ var paddleX = (canvas.width - paddleWidth)/2;
 var rightPressed = false;
 var leftPressed = false;
 
+var score = 0;
+var lives = 3;
+
 var brickRowCount = 3;
 var brickColumCount = 5;
 var brickWidth = 75;
@@ -40,10 +43,25 @@ function collisionDetection(){
                 if(x>b.x&&x<b.x+brickWidth && y>b.y&&y<b.y+brickHeight){
                     dy = -dy;
                     b.status = 0;
+                    score++;
+                    if(score==brickRowCount*brickColumCount){
+                        alert("YOU WIN CONGRATULATIONS!");
+                        document.location.reload();
+                    }
                 }    
             }
         }
     }    
+}
+function drawScore(){
+    ctx.font= "16px Arial";
+    ctx.fillStyle="#0095DD";
+    ctx.fillText("Score:"+score,8,20);
+}
+function drawLives(){
+    ctx.font= "16px Arial";
+    ctx.fillStyle="#0095DD";
+    ctx.fillText("Lives:"+lives,canvas.width-65,20);
 }
 
 function drawBall(){
@@ -86,6 +104,8 @@ function draw(){
     drawBall();
     drawBricks();
     drawPaddle();
+    drawScore();
+    drawLives();
     collisionDetection();
 
     if(y+dy < ballRedius){
@@ -96,9 +116,17 @@ function draw(){
                 dy = -dy;
             }
         }else{
-            alert("GAME OVER");
-            document.location.reload();
-            clearInterval(setInterval);    
+            lives--;
+            if(!lives){
+                alert("GAME OVER");
+                document.location.reload();   
+            }else{
+                x= canvas.width/2;
+                y=canvas.height-30;
+                dx =3;
+                dy=-3;
+                paddleX=(canvas.width-paddleWidth)/2;
+            }
         }
     }
     if(x+dx > canvas.width -ballRedius||x+dx < ballRedius){
@@ -111,9 +139,12 @@ function draw(){
     }
     x+=dx;
     y+=dy;
+    requestAnimationFrame(draw);
 }
 document.addEventListener("keydown",keyDownHandler,false);
 document.addEventListener("keyup",keyUpHandler,false);
+document.addEventListener("mousemove",mouseMoveHandler,false);
+
 
 function keyDownHandler(e){
     if(e.key=="Right"||e.key=="ArrowRight"){
@@ -122,7 +153,6 @@ function keyDownHandler(e){
     else if(e.key=="Left"||e.key=="ArrowLeft"){
         leftPressed = true;
     }
-
 }
 function keyUpHandler(e){
     if(e.key=="Right"||e.key=="ArrowRight"){
@@ -131,8 +161,11 @@ function keyUpHandler(e){
     else if(e.key=="Left"||e.key=="ArrowLeft"){
         leftPressed = false;
     }
-
 }
-var interval = setInterval(draw,30);
-setInterval(draw,30);
-
+function mouseMoveHandler(e){
+    var relativeX =e.clientX- canvas.offsetLeft;
+    if(relativeX>0&&relativeX<canvas.width){
+        paddleX = relativeX-paddleWidth/2;
+    }
+}
+draw();
