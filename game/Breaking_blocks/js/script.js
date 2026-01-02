@@ -29,8 +29,21 @@ var bricks =[];
 for(var c = 0;c<brickColumCount;c++){
     bricks[c]=[];
     for(var r = 0;r<brickRowCount;r++){
-        bricks[c][r]={x:0,y:0};
+        bricks[c][r]={x:0,y:0,status:1};
     }
+}
+function collisionDetection(){
+    for(var c = 0;c<brickColumCount;c++){
+        for(var r = 0;r<brickRowCount;r++){
+            var b = bricks[c][r];
+            if(b.status ==1){
+                if(x>b.x&&x<b.x+brickWidth && y>b.y&&y<b.y+brickHeight){
+                    dy = -dy;
+                    b.status = 0;
+                }    
+            }
+        }
+    }    
 }
 
 function drawBall(){
@@ -52,17 +65,19 @@ function drawPaddle(){
 function drawBricks(){
     for(var c = 0;c<brickColumCount;c++){
         for(var r = 0;r<brickRowCount;r++){
-            var bricksX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-            var bricksY = (r*(brickHeight+brickPadding))+brickOffsetTop;
-
-            bricks[c][r].x = 0;
-            bricks[c][r].y = 0;
-
-            ctx.beginPath();
-            ctx.rect(bricksX,bricksY,brickWidth,brickHeight);
-            ctx.fillStyle="#0095DD";
-            ctx.fill();
-            ctx.closePath();        
+            if(bricks[c][r].status==1){
+                var bricksX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+                var bricksY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+    
+                bricks[c][r].x = bricksX;
+                bricks[c][r].y = bricksY;
+    
+                ctx.beginPath();
+                ctx.rect(bricksX,bricksY,brickWidth,brickHeight);
+                ctx.fillStyle="#0095DD";
+                ctx.fill();
+                ctx.closePath();            
+            }
         }
     }
 }
@@ -71,13 +86,20 @@ function draw(){
     drawBall();
     drawBricks();
     drawPaddle();
+    collisionDetection();
 
     if(y+dy < ballRedius){
         dy = -dy;
     }else if(y+dy > canvas.height-ballRedius){
-        alert("GAME OVER");
-        document.location.reload();
-        clearInterval(setInterval);
+        if(x>paddleX&&x<paddleX+paddleWidth){
+            if(y=y-paddleHeight){
+                dy = -dy;
+            }
+        }else{
+            alert("GAME OVER");
+            document.location.reload();
+            clearInterval(setInterval);    
+        }
     }
     if(x+dx > canvas.width -ballRedius||x+dx < ballRedius){
         dx = -dx;
@@ -111,6 +133,6 @@ function keyUpHandler(e){
     }
 
 }
-var interval = setInterval(draw,10);
-setInterval(draw,10);
+var interval = setInterval(draw,30);
+setInterval(draw,30);
 
