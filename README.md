@@ -22,4 +22,6 @@ Javascriptゲームプログラミング初級【ブロック崩し】
 if文・for文・関数・Gameの基礎・アニメーションについて学べます。  
 Javascript入門 | ジャバスクリプト初心者 ゲーム開発  
 https://youtu.be/g2FlXCSy0yI  
+・プログラミング講座@youtube(テトリス制作、シューティングゲーム)  
+https://aki28.com/  
 ***
