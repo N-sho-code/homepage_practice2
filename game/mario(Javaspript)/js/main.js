@@ -16,3 +16,8 @@ chImg.onload = draw;
 function draw(){
     con.drawImage(chImg,0,0,16,32,0,0,16,32);
 }
+
+setInterval(mainLoop,1000/60);
+function mainLoop(){
+    
+}
