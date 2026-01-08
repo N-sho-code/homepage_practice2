@@ -24,4 +24,6 @@ Javascript入門 | ジャバスクリプト初心者 ゲーム開発
 https://youtu.be/g2FlXCSy0yI  
 ・プログラミング講座@youtube(テトリス制作、シューティングゲーム)  
 https://aki28.com/  
+【プログラミング入門】〇×ゲームをつくろう！-総集編-  
+https://youtu.be/KO0CNe-4a8g  
 ***
