@@ -1,3 +1,4 @@
+# homepage_practice2
 **目的**  
 今回の目的はこの制作を通して、Webに関する知識や技術（HTML/CSS、JavaScriptなど）
 を、実際に手を動かしながら身につけることができました。  
