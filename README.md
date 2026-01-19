@@ -19,10 +19,10 @@ https://chatgpt.com/
 ・GitHub  
 https://github.co.jp/   
 ・透過画像作成（らっこツール）  
-https://rakko.tools/tools/130/   
+[https://rakko.tools/tools/130/](https://rakko.tools/tools/130/)   
 ・normalize.css(reset.cssに利用)  
 https://github.com/necolas/normalize.css  
-Javascriptゲームプログラミング初級【ブロック崩し】  
+・Javascriptゲームプログラミング初級【ブロック崩し】  
 if文・for文・関数・Gameの基礎・アニメーションについて学べます。  
 Javascript入門 | ジャバスクリプト初心者 ゲーム開発  
 https://youtu.be/g2FlXCSy0yI  
