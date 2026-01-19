@@ -18,6 +18,8 @@
 https://chatgpt.com/  
 ・GitHub  
 https://github.co.jp/   
+・透過画像作成（らっこツール）  
+https://rakko.tools/tools/130/   
 ・normalize.css(reset.cssに利用)  
 https://github.com/necolas/normalize.css  
 Javascriptゲームプログラミング初級【ブロック崩し】  
