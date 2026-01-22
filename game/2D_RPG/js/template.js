@@ -1,7 +1,7 @@
 var maptip;
 var map;
 var posx, posy;
-var imgReimu;
+var imgUser;
 var MapWidth = 16;
 var MapHeight = 16;
 var MapDrawWidth = 9;
@@ -14,8 +14,8 @@ onload = function () {
     // 初期化
     init();
     // 入力処理の指定
- //   document.onkeydown = keydown;
-  //  document.onkeyup = keyup;
+    document.onkeydown = keydown;
+    document.onkeyup = keyup;
     // ゲームループの設定 60FPS
     setInterval("gameloop()", 16);
 };
@@ -26,18 +26,18 @@ function init() {
         [2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,2],
         [2,2,2,2,2,0,0,0,1,0,0,0,1,1,0,0],
         [2,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0],
+        [2,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0],
+        [2,0,0,1,1,0,0,0,0,1,0,0,1,1,0,0],
         //
-        [2,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0],
-        [2,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0],
-        [2,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0],
-        [2,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0],
-        [2,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0],
-        [2,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0],
-        [2,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0],
-        [2,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0],
-        [2,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0],
-        [2,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0],
-        [2,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0],
+        [0,0,0,1,1,0,0,0,0,0,0,3,0,0,0,0],
+        [0,0,0,1,1,0,0,0,0,0,0,3,0,0,0,0],
+        [0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0],
     ];
     //マップチップ読込
     maptip = [];
@@ -49,10 +49,40 @@ function init() {
     posx = 5;
     posy = 5;
     //キャラ画像読込
-    imgReimu = new Image();
-    imgReimu.src = "./image/reimu.png";
+    imgUser = new Image();
+    imgUser.src = "./image/user0.png";
 }
+function keydown(e) {
+    //currentKey = e.keyCode;
+    var x = posx;
+    var y = posy;
+    if (e.keyCode == 37) {
+        //左
+        x = (posx - 1 + MapWidth) % MapWidth;
+    } else if (e.keyCode == 38) {
+        //上
+        y = (posy - 1 + MapHeight) % MapHeight;
+    } else if (e.keyCode == 39) {
+        //右
+        x = (posx + 1) % MapWidth;
+    } else if (e.keyCode == 40) {
+        //下
+        y = (posy + 1) % MapHeight;
+    }
 
+    //当たり判定
+    if (map[y][x] == 0 || map[y][x] == 1) {
+        posx = x;
+        posy = y;
+    }
+
+}
+function keyup(e) {
+    currentKey = -1;
+}
+function gameloop() {
+    draw();
+}
 function draw() {
     //マップの描画
     for (var i = 0; i < MapDrawHeight; i++) {
@@ -66,7 +96,7 @@ function draw() {
     }
     //キャラの描画
     g.drawImage(
-        imgReimu,
+        imgUser,
         DrawSize * Math.floor(MapDrawWidth / 2),
         DrawSize * Math.floor(MapDrawHeight / 2),
         DrawSize,
@@ -74,7 +104,4 @@ function draw() {
     );
     // g.fillStyle = "black";
     // g.fillRect(0, 0, 432, 432);
-}
-function gameloop() {
-    draw();
 }
