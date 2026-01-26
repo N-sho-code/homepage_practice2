@@ -1,3 +1,4 @@
+var canvas, g;
 var maptip;
 var map;
 var posx, posy;
@@ -6,7 +7,12 @@ var MapWidth = 16;
 var MapHeight = 16;
 var MapDrawWidth = 9;
 var MapDrawHeight = 9;
-var DrawSize = 48;
+// var DrawSize = 48;
+var DrawSize = 64;
+var AnimationNum = 16;
+var scrollX, scrollY;
+var frameCount;
+var currentKey;
 onload = function () {
     // 描画コンテキストの取得
     canvas = document.getElementById("gamecanvas");
@@ -49,59 +55,103 @@ function init() {
     posx = 5;
     posy = 5;
     //キャラ画像読込
-    imgUser = new Image();
-    imgUser.src = "./image/user0.png";
+    imgUser = [];
+    for (var i = 0; i < 2; i++) {
+        imgUser[i] = new Image();
+        imgUser[i].src = "./image/user" + i + ".png";
+    }
+    //その他
+    scrollX = 0;
+    scrollY = 0;
+    frameCount = 0;
+    currentKey = -1;
 }
 function keydown(e) {
-    //currentKey = e.keyCode;
+    currentKey = e.keyCode;
+}
+function keyup(e) {
+    currentKey = -1;
+}
+function inputCheck() {
+    if (scrollX != 0 || scrollY != 0) return;
+
     var x = posx;
     var y = posy;
-    if (e.keyCode == 37) {
+    var animx = 0;
+    var animy = 0;
+    if (currentKey == 37) {
         //左
         x = (posx - 1 + MapWidth) % MapWidth;
-    } else if (e.keyCode == 38) {
+        animx = -1;
+    } else if (currentKey == 38) {
         //上
         y = (posy - 1 + MapHeight) % MapHeight;
-    } else if (e.keyCode == 39) {
+        animy = -1;
+    } else if (currentKey == 39) {
         //右
         x = (posx + 1) % MapWidth;
-    } else if (e.keyCode == 40) {
+        animx = 1;
+    } else if (currentKey == 40) {
         //下
         y = (posy + 1) % MapHeight;
+        animy = 1;
     }
 
     //当たり判定
     if (map[y][x] == 0 || map[y][x] == 1) {
         posx = x;
         posy = y;
+        scrollX = animx * DrawSize;
+        scrollY = animy * DrawSize;
+    } else {
+        scrollX = -1 * animx * ((DrawSize / AnimationNum) * 3);
+        scrollY = -1 * animy * ((DrawSize / AnimationNum) * 3);
     }
-
-}
-function keyup(e) {
-    currentKey = -1;
 }
 function gameloop() {
+    update();
     draw();
+}
+function update() {
+    inputCheck();
+    // マップスクロール量の更新
+    if (scrollX > 0) scrollX -= DrawSize / AnimationNum;
+    if (scrollX < 0) scrollX += DrawSize / AnimationNum;
+    if (scrollY > 0) scrollY -= DrawSize / AnimationNum;
+    if (scrollY < 0) scrollY += DrawSize / AnimationNum;
+
+    frameCount++;
 }
 function draw() {
     //マップの描画
+    var startX = Math.floor((canvas.width - MapDrawWidth * DrawSize) / 2);
+    var startY = Math.floor((canvas.height - MapDrawHeight * DrawSize) / 2);
     for (var i = 0; i < MapDrawHeight; i++) {
         for (var j = 0; j < MapDrawWidth; j++) {
             //始点の算出
             var x = (posx - Math.floor(MapDrawWidth / 2) + j + MapWidth) % MapWidth;
             var y = (posy - Math.floor(MapDrawHeight / 2) + i + MapHeight) % MapHeight;
             //マップチップの描画
-            g.drawImage(maptip[map[y][x]], j * DrawSize, i * DrawSize, DrawSize, DrawSize);
+            //g.drawImage(maptip[map[y][x]], j * DrawSize, i * DrawSize, DrawSize, DrawSize);
+            //マップチップの描画
+            g.drawImage(
+                maptip[map[y][x]],
+                startX + j * DrawSize + scrollX,
+                startY + i * DrawSize + scrollY,
+                DrawSize,
+                DrawSize
+            );
         }
     }
-    //キャラの描画
+  // キャラの描画
     g.drawImage(
-        imgUser,
-        DrawSize * Math.floor(MapDrawWidth / 2),
-        DrawSize * Math.floor(MapDrawHeight / 2),
+        // imgUser,
+        // DrawSize * Math.floor(MapDrawWidth / 2),
+        // DrawSize * Math.floor(MapDrawHeight / 2),
+        imgUser[Math.floor(frameCount / 10) % 2],
+        Math.floor((canvas.width - DrawSize) / 2),
+        Math.floor((canvas.height - DrawSize) / 2) - DrawSize / 6,
         DrawSize,
         DrawSize
     );
-    // g.fillStyle = "black";
-    // g.fillRect(0, 0, 432, 432);
 }
