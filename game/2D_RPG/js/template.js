@@ -2,7 +2,8 @@ var canvas, g;
 var maptip;
 var map;
 var posx, posy;
-var imgUser;
+var imgUser,imgNpc,imgEnemy;
+var spriteList;
 var MapWidth = 16;
 var MapHeight = 16;
 var MapDrawWidth = 9;
@@ -51,11 +52,17 @@ function init() {
         maptip[i] = new Image();
         maptip[i].src = "./image/maptip" + i + ".png";
     }
+    //スプライトの初期化
+    imgUser =new Sprite();
+    imgNpc =new Sprite();
+    spriteList=[];
+    spriteList.push(imgNpc);
+    spriteList.push(imgEnemy);
     //初期位置
-    posx = 5;
-    posy = 5;
+    // posx = 5;
+    // posy = 5;
     //キャラ画像読込
-    imgUser = [];
+    //imgUser = [];
     for (var i = 0; i < 2; i++) {
         imgUser[i] = new Image();
         imgUser[i].src = "./image/user" + i + ".png";
