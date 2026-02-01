@@ -12,12 +12,12 @@ var MapDrawHeight = 9;
 // var DrawSize = 48;
 var DrawSize = 64;
 var AnimationNum = 16;
-//スプライトクラス
-class Sprite {
-    image = [];
-    posx = 0;
-    posy = 0;
-}
+//シーンの定義
+const Scenes={
+    Field:  "Field",
+    Battle: "Battle",
+    Event:  "Event",
+};
 var scrollX, scrollY;
 var frameCount;
 var currentKey;
@@ -128,16 +128,42 @@ function inputCheck() {
         y = (spUser.posy + 1) % MapHeight;
         animy = 1;
     }
-
+    var spriteHit=false;
+    spriteList.forEach(function(sp){
+        if(sp.posx==x&&sp.posy==y){
+            spriteHit=true;
+            return;
+        }
+    });
     //当たり判定
-    if (map[y][x] == 0 || map[y][x] == 1) {
+    if(spriteHit){
+        scene =Scenes.Event;
+        dispatchEvent(x,y);
+    }else if (map[y][x] == 0 || map[y][x] == 1) {
+        //移動可能なら移動
         spUser.posx = x;
         spUser.posy = y;
         scrollX = animx * DrawSize;
         scrollY = animy * DrawSize;
+    // if (map[y][x] == 0 || map[y][x] == 1) {
+    //     //移動可能なら移動
+    //     spUser.posx = x;
+    //     spUser.posy = y;
+    //     scrollX = animx * DrawSize;
+    //     scrollY = animy * DrawSize;
     } else {
         scrollX = -1 * animx * ((DrawSize / AnimationNum) * 3);
         scrollY = -1 * animy * ((DrawSize / AnimationNum) * 3);
+    }
+}
+//座標から発生させるイベントを決定する。
+function dispatchEvent(x,y){
+    if(x==10&&y==8){
+        currentEvent=new GameEvent(0,["村人「イベントテスト」"]);
+    }else if(x==14&&y==14){
+        currentEvent=new GameEvent(1,["敵「バトル」"]);
+    }else{
+        currentEvent= new GameEvent(0,"Error");
     }
 }
 function gameloop() {
@@ -210,4 +236,23 @@ function draw() {
             DrawSize
         );
     });
+    if (scene == Scenes.Event) {
+        // イベントメッセージの描画
+        drawMessage(currentEvent.message);
+      }
+}
+  
+//スプライトクラス
+class Sprite {
+    image = [];
+    posx = 0;
+    posy = 0;
+}
+class GameEvent{
+    type =0;
+    message="";
+    constructor(type,message){
+        this.type=type;
+        this.message=message;
+    }
 }
