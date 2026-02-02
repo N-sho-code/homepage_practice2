@@ -21,6 +21,7 @@ const Scenes={
 var scrollX, scrollY;
 var frameCount;
 var currentKey;
+var scene;
 onload = function () {
     // 描画コンテキストの取得
     canvas = document.getElementById("gamecanvas");
@@ -64,7 +65,6 @@ function init() {
     spEnemy = new Sprite();
     imgNpc = new Sprite();
     spriteList = [];
-    spriteList.push(spUser);
     spriteList.push(spEnemy);
     spriteList.push(imgNpc);
     //初期位置
@@ -107,6 +107,7 @@ function inputCheck() {
 
     // var x = posx;
     // var y = posy;
+    // フィールド 方向キーをチェック    
     var x = spUser.posx;
     var y = spUser.posy;    
     var animx = 0;
@@ -128,6 +129,7 @@ function inputCheck() {
         y = (spUser.posy + 1) % MapHeight;
         animy = 1;
     }
+    //スプライトの当たり判定
     var spriteHit=false;
     spriteList.forEach(function(sp){
         if(sp.posx==x&&sp.posy==y){
@@ -135,6 +137,7 @@ function inputCheck() {
             return;
         }
     });
+
     //当たり判定
     if(spriteHit){
         scene =Scenes.Event;
@@ -152,6 +155,7 @@ function inputCheck() {
     //     scrollX = animx * DrawSize;
     //     scrollY = animy * DrawSize;
     } else {
+        //移動不可なら壁当たりアニメーション
         scrollX = -1 * animx * ((DrawSize / AnimationNum) * 3);
         scrollY = -1 * animy * ((DrawSize / AnimationNum) * 3);
     }
@@ -236,11 +240,45 @@ function draw() {
             DrawSize
         );
     });
+        // キャラの描画
+    g.drawImage(
+        spUser.image[Math.floor(frameCount / 10) % 2],
+        Math.floor((canvas.width - DrawSize) / 2),
+        Math.floor((canvas.height - DrawSize) / 2) - DrawSize / 6,
+        DrawSize,
+        DrawSize
+    );
+
     if (scene == Scenes.Event) {
-        // イベントメッセージの描画
+    // イベントメッセージの描画
         drawMessage(currentEvent.message);
       }
 }
+// イベントメッセージ描画
+function drawMessage(message){
+    var WindowMargin = 10;
+    var WindowWidth = canvas.width-WindowMargin*2;
+    var WindowHeight = canvas.height/4;
+    drawWindow(WindowMargin,canvas.height-WindowHeight-WindowMargin,WindowWidth,WindowHeight,WindowMargin);
+    for(var i=0;i<message.length;i++){
+        drawString(message[i],WindowMargin*3,canvas.height-WindowHeight+WindowMargin+24*(i+1));
+    }
+}
+
+// メッセージウィンドウ描画
+function drawWindow(x,y,WindowWidth,WindowHeight,WindowMargin=10,frameColor="rgb(255,255,255)"){
+    g.fillStyle=frameColor;
+    g.fillRect(x,y,WindowWidth,WindowHeight);
+    g.fillStyle="rgb(0,0,0)";
+    g.fillRect(x+WindowMargin,y+WindowMargin,WindowWidth-WindowMargin*2,WindowHeight-WindowMargin*2);
+}
+// 文字列描画
+function drawString(string,x,y,color="rgb(255,255,255)"){
+    g.font="bold 16pt Arial";
+    g.fillStyle=color;
+    g.fillText(string,x,y);
+}
+
   
 //スプライトクラス
 class Sprite {
@@ -248,6 +286,7 @@ class Sprite {
     posx = 0;
     posy = 0;
 }
+// ゲームイベント
 class GameEvent{
     type =0;
     message="";
