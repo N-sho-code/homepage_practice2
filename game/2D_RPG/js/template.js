@@ -43,7 +43,6 @@ function init() {
         [2,2,0,0,0,0,0,0,0,0,0,1,1,1,1,0],
         [2,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0],
         [2,0,0,1,1,0,0,0,0,1,0,0,1,1,0,0],
-        //
         [0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0],
         [0,1,0,0,0,0,0,0,3,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,3,3,3,2,2,0,0,0,0,0],
@@ -95,6 +94,7 @@ function init() {
     scrollY = 0;
     frameCount = 0;
     currentKey = -1;
+    player= new BattleCharacter("ユーザー",128,64,64,32);
 }
 function keydown(e) {
     currentKey = e.keyCode;
@@ -254,6 +254,10 @@ function draw() {
         drawMessage(currentEvent.message);
       }
 }
+//HP表示
+function drawStatus(x=0){
+    //
+}
 // イベントメッセージ描画
 function drawMessage(message){
     var WindowMargin = 10;
@@ -294,4 +298,24 @@ class GameEvent{
         this.type=type;
         this.message=message;
     }
+}
+//戦闘用キャラクターデータ
+class BattleCharacter{
+    name="";    //名前
+    hp=0;       //HP
+    maxhp=0;    //最大HP
+    atc=0;      //攻撃力
+    def=0;      //防御力
+    speed=0;    //素早さ
+    image;      //画像
+
+constructor(name, hp, atc, def, speed, image){
+    name
+    this.hp = hp;
+    this.maxhp = maxhp;
+    this.atc = atc;
+    this.def = def;
+    this.speed = speed;
+    this.image = image;
+}
 }
