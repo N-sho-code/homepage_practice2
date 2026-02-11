@@ -13,10 +13,10 @@ var MapDrawHeight = 9;
 var DrawSize = 64;
 var AnimationNum = 16;
 //シーンの定義
-const Scenes={
-    Field:  "Field",
+const Scenes = {
+    Field: "Field",
     Battle: "Battle",
-    Event:  "Event",
+    Event: "Event",
 };
 var scrollX, scrollY;
 var frameCount;
@@ -53,6 +53,7 @@ function init() {
         [0,1,3,3,3,3,1,0,0,0,0,0,0,0,0,2],
         [0,0,2,2,2,2,2,2,2,0,0,0,0,0,2,2],
     ];
+
     //マップチップ読込
     maptip = [];
     for (var i = 0; i < 4; i++) {
@@ -94,7 +95,7 @@ function init() {
     scrollY = 0;
     frameCount = 0;
     currentKey = -1;
-    player= new BattleCharacter("ユーザー",128,64,64,32);
+    player = new BattleCharacter("ユーザー", 128, 64, 64, 32);
 }
 function keydown(e) {
     currentKey = e.keyCode;
@@ -109,7 +110,7 @@ function inputCheck() {
     // var y = posy;
     // フィールド 方向キーをチェック    
     var x = spUser.posx;
-    var y = spUser.posy;    
+    var y = spUser.posy;
     var animx = 0;
     var animy = 0;
     if (currentKey == 37) {
@@ -130,30 +131,30 @@ function inputCheck() {
         animy = 1;
     }
     //スプライトの当たり判定
-    var spriteHit=false;
-    spriteList.forEach(function(sp){
-        if(sp.posx==x&&sp.posy==y){
-            spriteHit=true;
+    var spriteHit = false;
+    spriteList.forEach(function (sp) {
+        if (sp.posx == x && sp.posy == y) {
+            spriteHit = true;
             return;
         }
     });
 
     //当たり判定
-    if(spriteHit){
-        scene =Scenes.Event;
-        dispatchEvent(x,y);
-    }else if (map[y][x] == 0 || map[y][x] == 1) {
+    if (spriteHit) {
+        scene = Scenes.Event;
+        dispatchEvent(x, y);
+    } else if (map[y][x] == 0 || map[y][x] == 1) {
         //移動可能なら移動
         spUser.posx = x;
         spUser.posy = y;
         scrollX = animx * DrawSize;
         scrollY = animy * DrawSize;
-    // if (map[y][x] == 0 || map[y][x] == 1) {
-    //     //移動可能なら移動
-    //     spUser.posx = x;
-    //     spUser.posy = y;
-    //     scrollX = animx * DrawSize;
-    //     scrollY = animy * DrawSize;
+        // if (map[y][x] == 0 || map[y][x] == 1) {
+        //     //移動可能なら移動
+        //     spUser.posx = x;
+        //     spUser.posy = y;
+        //     scrollX = animx * DrawSize;
+        //     scrollY = animy * DrawSize;
     } else {
         //移動不可なら壁当たりアニメーション
         scrollX = -1 * animx * ((DrawSize / AnimationNum) * 3);
@@ -161,19 +162,21 @@ function inputCheck() {
     }
 }
 //座標から発生させるイベントを決定する。
-function dispatchEvent(x,y){
-    if(x==10&&y==8){
-        currentEvent=new GameEvent(0,["村人「イベントテスト」"]);
-    }else if(x==14&&y==14){
-        currentEvent=new GameEvent(1,["敵「バトル」"]);
-    }else{
-        currentEvent= new GameEvent(0,"Error");
+function dispatchEvent(x, y) {
+    if (x == 10 && y == 8) {
+        currentEvent = new GameEvent(0, ["村人「イベントテスト」"]);
+    } else if (x == 14 && y == 14) {
+        currentEvent = new GameEvent(1, ["敵「バトル」"]);
+    } else {
+        currentEvent = new GameEvent(0, "Error");
     }
 }
+
 function gameloop() {
     update();
     draw();
 }
+
 function update() {
     inputCheck();
     // マップスクロール量の更新
@@ -184,6 +187,7 @@ function update() {
 
     frameCount++;
 }
+
 function draw() {
     //マップの描画
     var startX = Math.floor((canvas.width - MapDrawWidth * DrawSize) / 2);
@@ -205,6 +209,7 @@ function draw() {
             );
         }
     }
+
     // キャラの描画
     // g.drawImage(
     //     // imgUser,
@@ -240,7 +245,8 @@ function draw() {
             DrawSize
         );
     });
-        // キャラの描画
+
+    // キャラの描画
     g.drawImage(
         spUser.image[Math.floor(frameCount / 10) % 2],
         Math.floor((canvas.width - DrawSize) / 2),
@@ -250,40 +256,40 @@ function draw() {
     );
 
     if (scene == Scenes.Event) {
-    // イベントメッセージの描画
+        // イベントメッセージの描画
         drawMessage(currentEvent.message);
-      }
+    }
 }
 //HP表示
-function drawStatus(x=0){
+function drawStatus(x = 0) {
     //
 }
 // イベントメッセージ描画
-function drawMessage(message){
+function drawMessage(message) {
     var WindowMargin = 10;
-    var WindowWidth = canvas.width-WindowMargin*2;
-    var WindowHeight = canvas.height/4;
-    drawWindow(WindowMargin,canvas.height-WindowHeight-WindowMargin,WindowWidth,WindowHeight,WindowMargin);
-    for(var i=0;i<message.length;i++){
-        drawString(message[i],WindowMargin*3,canvas.height-WindowHeight+WindowMargin+24*(i+1));
+    var WindowWidth = canvas.width - WindowMargin * 2;
+    var WindowHeight = canvas.height / 4;
+    drawWindow(WindowMargin, canvas.height - WindowHeight - WindowMargin, WindowWidth, WindowHeight, WindowMargin);
+    for (var i = 0; i < message.length; i++) {
+        drawString(message[i], WindowMargin * 3, canvas.height - WindowHeight + WindowMargin + 24 * (i + 1));
     }
 }
 
 // メッセージウィンドウ描画
-function drawWindow(x,y,WindowWidth,WindowHeight,WindowMargin=10,frameColor="rgb(255,255,255)"){
-    g.fillStyle=frameColor;
-    g.fillRect(x,y,WindowWidth,WindowHeight);
-    g.fillStyle="rgb(0,0,0)";
-    g.fillRect(x+WindowMargin,y+WindowMargin,WindowWidth-WindowMargin*2,WindowHeight-WindowMargin*2);
+function drawWindow(x, y, WindowWidth, WindowHeight, WindowMargin = 10, frameColor = "rgb(255,255,255)") {
+    g.fillStyle = frameColor;
+    g.fillRect(x, y, WindowWidth, WindowHeight);
+    g.fillStyle = "rgb(0,0,0)";
+    g.fillRect(x + WindowMargin, y + WindowMargin, WindowWidth - WindowMargin * 2, WindowHeight - WindowMargin * 2);
 }
 // 文字列描画
-function drawString(string,x,y,color="rgb(255,255,255)"){
-    g.font="bold 16pt Arial";
-    g.fillStyle=color;
-    g.fillText(string,x,y);
+function drawString(string, x, y, color = "rgb(255,255,255)") {
+    g.font = "bold 16pt Arial";
+    g.fillStyle = color;
+    g.fillText(string, x, y);
 }
 
-  
+
 //スプライトクラス
 class Sprite {
     image = [];
@@ -291,31 +297,31 @@ class Sprite {
     posy = 0;
 }
 // ゲームイベント
-class GameEvent{
-    type =0;
-    message="";
-    constructor(type,message){
-        this.type=type;
-        this.message=message;
+class GameEvent {
+    type = 0;
+    message = "";
+    constructor(type, message) {
+        this.type = type;
+        this.message = message;
     }
 }
 //戦闘用キャラクターデータ
-class BattleCharacter{
-    name="";    //名前
-    hp=0;       //HP
-    maxhp=0;    //最大HP
-    atc=0;      //攻撃力
-    def=0;      //防御力
-    speed=0;    //素早さ
+class BattleCharacter {
+    name = "";    //名前
+    hp = 0;       //HP
+    maxhp = 0;    //最大HP
+    atc = 0;      //攻撃力
+    def = 0;      //防御力
+    speed = 0;    //素早さ
     image;      //画像
 
-constructor(name, hp, atc, def, speed, image){
-    name
-    this.hp = hp;
-    this.maxhp = maxhp;
-    this.atc = atc;
-    this.def = def;
-    this.speed = speed;
-    this.image = image;
-}
+    constructor(name, hp, atc, def, speed, image) {
+        name
+        this.hp = hp;
+        this.maxhp = maxhp;
+        this.atc = atc;
+        this.def = def;
+        this.speed = speed;
+        this.image = image;
+    }
 }
