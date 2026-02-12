@@ -95,7 +95,7 @@ function init() {
     scrollY = 0;
     frameCount = 0;
     currentKey = -1;
-    player = new BattleCharacter("ユーザー", 128, 64, 64, 32);
+    player = new BattleCharacter("ユーザー", 128, 64, 64, 32, spUser);
 }
 function keydown(e) {
     currentKey = e.keyCode;
@@ -259,10 +259,21 @@ function draw() {
         // イベントメッセージの描画
         drawMessage(currentEvent.message);
     }
+    var statusShake = 0;
+    // HPの描画
+    drawStatus(statusShake);
 }
 //HP表示
 function drawStatus(x = 0) {
-    //
+    //残HPで色を変える
+    var color = "rgb(255,255,255)";
+    if (player.hp == 0) {
+        color = "rgb(255,32,32)";
+    } else if (player.hp < player.maxhp / 2) {
+        color = "rgb(255,180,32)";
+    }
+    drawWindow(10 + x, 10, 128, 64, 10, color);
+    drawString("HP:" + player.hp, 30 + x, 50, color);
 }
 // イベントメッセージ描画
 function drawMessage(message) {
@@ -282,6 +293,7 @@ function drawWindow(x, y, WindowWidth, WindowHeight, WindowMargin = 10, frameCol
     g.fillStyle = "rgb(0,0,0)";
     g.fillRect(x + WindowMargin, y + WindowMargin, WindowWidth - WindowMargin * 2, WindowHeight - WindowMargin * 2);
 }
+
 // 文字列描画
 function drawString(string, x, y, color = "rgb(255,255,255)") {
     g.font = "bold 16pt Arial";
@@ -316,9 +328,9 @@ class BattleCharacter {
     image;      //画像
 
     constructor(name, hp, atc, def, speed, image) {
-        name
+        this.name = name;
         this.hp = hp;
-        this.maxhp = maxhp;
+        this.maxhp = hp;
         this.atc = atc;
         this.def = def;
         this.speed = speed;
