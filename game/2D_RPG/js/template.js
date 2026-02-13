@@ -22,6 +22,11 @@ var scrollX, scrollY;
 var frameCount;
 var currentKey;
 var scene;
+var currentEvent;
+var currentBattle;
+var currentEnemy;
+var player;
+
 onload = function () {
     // 描画コンテキストの取得
     canvas = document.getElementById("gamecanvas");
@@ -95,16 +100,31 @@ function init() {
     scrollY = 0;
     frameCount = 0;
     currentKey = -1;
-    player = new BattleCharacter("ユーザー", 128, 64, 64, 32, spUser);
+    player = new BattleCharacter("ユーザー", 128, 64, 64, 32);
 }
+var keyReleased = true; // キー押しっぱなし防止用
 function keydown(e) {
     currentKey = e.keyCode;
 }
 function keyup(e) {
     currentKey = -1;
+    keyReleased = true;
 }
 function inputCheck() {
     if (scrollX != 0 || scrollY != 0) return;
+    if (keyReleased && currentKey == 13) {
+        keyReleased = false;
+        if (currentEvent.type == 0) {
+            //NPC
+            scene = Scenes.Field;
+            player.hp = player.maxhp;
+        } else if (currentEvent.type == 1) {
+            //エネミー
+            scene = Scenes.Battle;
+            currentEnemy = new BattleCharacter("敵", 110, 64, 48, 30, imgEnemy);
+            currentBattle = new Battle(player, currentEnemy);
+        }
+    }
 
     // var x = posx;
     // var y = posy;
@@ -231,7 +251,7 @@ function draw() {
         var y =
             Math.abs(sp.posy - spUser.posy) < Math.abs(sp.posy - spUser.posy - MapWidth)
                 ? sp.posy - spUser.posy
-                : sp.posy - spUser.posy - MapWidth;
+                : sp.posy - spUser.posy - MapHeight;
 
         //TODO:描画範囲中にある時だけ描画する
         g.drawImage(
@@ -258,6 +278,22 @@ function draw() {
     if (scene == Scenes.Event) {
         // イベントメッセージの描画
         drawMessage(currentEvent.message);
+    }
+    if (scene == Scenes.Battle) {
+        var enemyShake = 0;
+        if (currentBattle.status == 2) enemyShake = ((frameCount / 5) % 2) * 3;
+        //敵キャラの描画
+        g.drawImage(
+            currentEnemy.image,
+            canvas.width / 2 - currentEnemy.image.width / 2 + enemyShake,
+            (canvas.height * 2) / 5 - currentEnemy.image.height / 2,
+        );
+        //戦闘メッセージの描画
+        drawMessage(currentBattle.message);
+        var statusShake = 0;
+        if (currentBattle.status == 3) statusShake = ((frameCount / 5) % 2) * 3;
+        //HPの描画
+        drawStatus(statusShake);
     }
     var statusShake = 0;
     // HPの描画
@@ -336,4 +372,10 @@ class BattleCharacter {
         this.speed = speed;
         this.image = image;
     }
+}
+//戦闘管理クラス
+class Battle {
+    status = 0;
+    pro
+
 }
