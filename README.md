@@ -32,5 +32,10 @@ https://aki28.com/
 https://youtu.be/KO0CNe-4a8g  
 ・【ゆっくり解説】ドラクエの作り方(再生リスト)  
 https://www.youtube.com/playlist?list=PL80OIWUJ1J0ETGknI9vJFfLYFEk7bvllg  
-  
+
 ***
+**利用素材**  
+・ぴぽや倉庫  
+https://pipoya.net/sozai/  
+・ニコニ･コモンズ  
+https://commons.nicovideo.jp  
