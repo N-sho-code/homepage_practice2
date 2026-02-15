@@ -337,7 +337,6 @@ function drawString(string, x, y, color = "rgb(255,255,255)") {
     g.fillText(string, x, y);
 }
 
-
 //スプライトクラス
 class Sprite {
     image = [];
@@ -376,6 +375,35 @@ class BattleCharacter {
 //戦闘管理クラス
 class Battle {
     status = 0;
-    pro
+    progressConst=0;
+    actionOrder=[];
+    aessage=[];
+
+    constructor(player,enemy){
+        this.player=player;
+        this.enemy =enemy;
+        this.nextAction();
+    }
+
+    //次のキャラクター行動を実行する
+    nextAction(){
+        this.aessage=[];
+
+        //死亡チェック
+        if(this.enemy.hp<=0){
+            this.message.push(this.enemy.name+"を倒した");
+            this.status=1;
+            return;
+        }else if(this.player.hp<=0){
+            this.message.push(this.player.name+"は死んでしまった");
+            this.status=-1;
+            return;
+        }
+
+        //バトル
+        if(this.progressConst==0){
+            this.message.push(this.enemy.name+"があらわれた");
+        }
+    }
 
 }
