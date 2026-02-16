@@ -112,17 +112,35 @@ function keyup(e) {
 }
 function inputCheck() {
     if (scrollX != 0 || scrollY != 0) return;
-    if (keyReleased && currentKey == 13) {
-        keyReleased = false;
-        if (currentEvent.type == 0) {
-            //NPC
-            scene = Scenes.Field;
-            player.hp = player.maxhp;
-        } else if (currentEvent.type == 1) {
-            //エネミー
-            scene = Scenes.Battle;
-            currentEnemy = new BattleCharacter("敵", 110, 64, 48, 30, imgEnemy);
-            currentBattle = new Battle(player, currentEnemy);
+    if (scene == Scenes.Event) {
+        // イベントシーン Enterキーをチェック
+        if (keyReleased && currentKey == 13) {
+            keyReleased = false;
+            if (currentEvent.type == 0) {
+                //NPC
+                scene = Scenes.Field;
+                player.hp = player.maxhp;
+            } else if (currentEvent.type == 1) {
+                //エネミー
+                scene = Scenes.Battle;
+                currentEnemy = new BattleCharacter("敵", 110, 64, 48, 30, imgEnemy);
+                currentBattle = new Battle(player, currentEnemy);
+            }
+        }
+    } else if (scene == Scenes.Battle) {
+        //戦闘シーンEnterキーをチェック
+        if (keyReleased && currentKey == 13) {
+            keyReleased = false;
+            if (currentBattle.status == 1) {
+                //敵を倒した
+                scene = Scenes.Field;
+            } else if (currentBattle.status == -1) {
+                //全滅した
+                scene = Scenes.Field;
+            } else {
+                //戦闘継続中
+                currentBattle.nextAction();
+            }
         }
     }
 
@@ -299,6 +317,7 @@ function draw() {
     // HPの描画
     drawStatus(statusShake);
 }
+
 //HP表示
 function drawStatus(x = 0) {
     //残HPで色を変える
@@ -372,38 +391,98 @@ class BattleCharacter {
         this.image = image;
     }
 }
+
 //戦闘管理クラス
 class Battle {
     status = 0;
-    progressConst=0;
-    actionOrder=[];
-    aessage=[];
+    progressCount = 0;
+    actionOrder = [];
+    message = [];
 
-    constructor(player,enemy){
-        this.player=player;
-        this.enemy =enemy;
+    constructor(player, enemy) {
+        this.player = player;
+        this.enemy = enemy;
         this.nextAction();
     }
 
     //次のキャラクター行動を実行する
-    nextAction(){
-        this.aessage=[];
+    nextAction() {
+        this.message = [];
 
         //死亡チェック
-        if(this.enemy.hp<=0){
-            this.message.push(this.enemy.name+"を倒した");
-            this.status=1;
+        if (this.enemy.hp <= 0) {
+            this.message.push(this.enemy.name + "を倒した");
+            this.status = 1;
             return;
-        }else if(this.player.hp<=0){
-            this.message.push(this.player.name+"は死んでしまった");
-            this.status=-1;
+        } else if (this.player.hp <= 0) {
+            this.message.push(this.player.name + "は死んでしまった");
+            this.status = -1;
             return;
         }
 
         //バトル
-        if(this.progressConst==0){
-            this.message.push(this.enemy.name+"があらわれた");
+        if (this.progressCount == 0) {
+            this.message.push(this.enemy.name + "があらわれた");
+            this.message.push("> battle start");
+            //行動順設定
+            this.updateActionOrder();
+        } else if (this.progressCount == 1) {
+            //先行キャラの行動
+            var damage = this.getDamage(this.actionOrder[0], this.actionOrder[1]);
+            this.message.push(this.actionOrder[0].name + "の攻撃");
+            this.message.push(this.actionOrder[1].name + "は" + damage + "のダメージ");
+            this.actionOrder[1].hp = Math.max(0, this.actionOrder[1].hp - damage);
+            if (this.actionOrder[1] == this.enemy) {
+                this.status = 2;
+            } else {
+                this.status = 3;
+            }
+        } else if (this.progressCount == 2) {
+            //後攻キャラの行動
+            var damage = this.getDamage(this.actionOrder[1], this.actionOrder[0]);
+            this.message.push(this.actionOrder[1].name + "の攻撃");
+            this.message.push(this.actionOrder[0].name + "は" + damage + "のダメージ");
+            this.actionOrder[0].hp = Math.max(0, this.actionOrder[0].hp - damage);
+            if (this.actionOrder[0] == this.enemy) {
+                this.status = 2;
+            } else {
+                this.status = 3;
+            }
+        } else if (this.progressCount == 3) {
+            //ターン終了
+            this.message.push("> Next turn");
+            this.progressCount = 0;
+            this.updateActionOrder();
+            this.status = 0;
+        }
+
+        this.progressCount++;
+    }
+
+    // 速度を見て行動順序を決める
+    updateActionOrder() {
+        if (
+            this.player.speed + this.getRondomInt(this.player.speed / 5) >
+            this.enemy.speed + this.getRondomInt(this.enemy.speed / 5)
+        ) {
+            this.actionOrder[0] = this.player;
+            this.actionOrder[1] = this.enemy;
+        } else {
+            this.actionOrder[0] = this.enemy;
+            this.actionOrder[1] = this.player;
         }
     }
 
+    //ダメージ計算
+    getDamage(c1, c2) {
+        //ドラクエ式
+        var baseDamage = Math.max(c1.atc / 2 - c2.def / 4, 0);
+        //乱数を加算して返す
+        return baseDamage + this.getRondomInt(2 + baseDamage / 10);
+    }
+
+    //制御の乱数を取得
+    getRondomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
 }
