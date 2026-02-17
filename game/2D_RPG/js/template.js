@@ -94,7 +94,7 @@ function init() {
         imgNpc.image[i].src = "./image/npc" + i + ".png";
     }
     imgEnemy = new Image();
-    imgEnemy.src = "/image/enemy.png";
+    imgEnemy.src = "/image/enemybig.png";
     //その他
     scrollX = 0;
     scrollY = 0;
