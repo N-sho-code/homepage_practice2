@@ -59,6 +59,7 @@ function init() {
     //     [0,1,3,3,3,3,1,0,0,0,0,0,0,0,0,2],
     //     [0,0,2,2,2,2,2,2,2,0,0,0,0,0,2,2],
     // ];
+
     createMap();
 
     //マップチップ読込
@@ -105,8 +106,24 @@ function init() {
     player = new BattleCharacter("ユーザー", 128, 64, 64, 32);
 }
 //マップデータ生成
-function createMap(){
+function createMap() {
     //マップを黒い背景で初期化
+    map = new Array(MapHeight);
+    for (var i = 0; i < MapHeight; i++) {
+        map[i] = new Array(MapWidth).fill(4);
+    }
+    //マップ中央部分にダンジョンを自動生成する範囲の設定
+    var root = new Rect(MapWidth / 4, MapHeight / 4, MapWidth / 2, MapHeight / 2);
+    //マップ自動生成
+    drvideRoom(root, getRondomInt(2) == 0);
+    //歩行可能チップと歩行不可チップの間に壁を設定
+    for (var i = 0; i < MapHeight - 1; i++) {
+        for (var j = 0; j < MapWidth; j++) {
+            if (map[i][j] == 4 && map[i + 1][j] == 5) {
+                map[i][j] = 6;
+            }
+        }
+    }
 }
 
 var keyReleased = true; // キー押しっぱなし防止用
