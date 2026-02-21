@@ -115,7 +115,7 @@ function createMap() {
     //マップ中央部分にダンジョンを自動生成する範囲の設定
     var root = new Rect(MapWidth / 4, MapHeight / 4, MapWidth / 2, MapHeight / 2);
     //マップ自動生成
-    drvideRoom(root, getRondomInt(2) == 0);
+    devideRoom(root, getRandomInt(2) == 0);
     //歩行可能チップと歩行不可チップの間に壁を設定
     for (var i = 0; i < MapHeight - 1; i++) {
         for (var j = 0; j < MapWidth; j++) {
@@ -125,7 +125,81 @@ function createMap() {
         }
     }
 }
+//指定領域を指定した方向に分割し、部屋を生成する
+function devideRoom(rect, hr) {
+    if (rect.width < 8 || rect.height < 8) {
+        //領域が小さい場合分割しない
+        return (rect);
+    }
+    if (hr) {
+        //分割ラインが水平の場合
+        var divline = Math.floor(rect.height / 3 + getRandomInt(rect.height / 3));  //領域の高さの3分の1から3分の2の間でランダム
+        //親の領域
+        var parentRect = new Rect(rect.x, rect.y, rect.width, divline);
+        //子の領域(分割対象)
+        var childRect = new Rect(rect.x, rect.y, divline, rect.width, rect.height - divline);
+        //親の領域に部屋を作る
+        var parentRoom = createRoom(parentRect);
+        //子の領域を分割し、且つ部屋を作る(再起呼出)
+        var childRoom = devideRoom(childRect, !hr);
+        //親と子の部屋を接続する
+        connectRoom(parentRoom, childRoom, rect.x, divline, hr);
+        //親の部屋を返す
+        return parentRoom;
+    } else {
+        //分割ラインが垂直の場合
+        var devline = Math.floor(rect.width / 3 + getRandomInt(rect.width / 3));
+        var parentRect = new Rect(rect.x, rect.y, devline, rect.height);
+        var childRect = new Rect(rect.x + devline, rect.y, devline, rect.height);
+        var parentRoom = createRoom(parentRect);
+        var childRoom = devideRoom(childRect, !hr);
+        connectRoom(parentRoom, childRoom, rect.x, devline, hr);
+        return parentRoom;
+    }
+}
+//部屋の生成
+function createRoom(rect) {
+    //指定された領域の中の4点を決定する
+    var x1 = getRandomInt(rect.width - 5);
+    var x2 = getRandomInt(rect.width - 5);
+    var y1 = getRandomInt(rect.height - 5);
+    var y2 = getRandomInt(rect.height - 5);
+    //X座標の始点 小さい方(マージンとして2マス分足す)
+    var x = rect.x + 2 + Math.min(x1, x2);
+    //幅は2点の差分
+    var w = 2 + Math.abs(x1 - x2);
+    // Y座標の始点　小さいほう(マージンとして2マス分足す)
+    var y = rect.y + 2 + Math.min(y1, y2);
+    // 高さは2点の差分
+    var h = 2 + Math.abs(y1 - y2);
+    //マップデータに部屋を反映
+    for (var i = 0; i < h; i++) {
+        for (var j = 0; j < w; j++) {
+            map[y + i][x + j] = 5;
+        }
+    }
+    //部屋の矩形領域を返す
+    return new Rect(x, y, w, h);
+}
+//部屋の乱数の取得
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}
+function connectRoom(parentRoom, childRoom, devline, hr) {
+    if (hr) {
+        //親の部屋の一点をランダムに選択
+        var x1 = parentRoom.x + getRandomInt(parentRoom.width);
+        //子の部屋の一点をランダムに選択
+        var x2 = childRoom.x + getRandomInt(childRoom.width);
+        //小さい方
+        var minX = Math.min(x1, x2);
+        //大きい方
+        var maxX = Math.max(x1, x2);
 
+        //マップに分割ライン上の線路を生成
+
+    }
+}
 var keyReleased = true; // キー押しっぱなし防止用
 function keydown(e) {
     currentKey = e.keyCode;
@@ -378,6 +452,19 @@ function drawString(string, x, y, color = "rgb(255,255,255)") {
     g.font = "bold 16pt Arial";
     g.fillStyle = color;
     g.fillText(string, x, y);
+}
+//矩形の位置とサイズを表すクラス
+class Rect {
+    x = 0;
+    y = 0;
+    width = 0;
+    height = 0;
+    constructor(x, y, w, h) {
+        this.x = x;
+        this.y = y;
+        this.width = w;
+        this.height = h;
+    }
 }
 
 //スプライトクラス
