@@ -5,13 +5,21 @@ var posx, posy;
 var spUser, spEnemy, imgNpc;
 var spriteList;
 var imgEnemy;
-var MapWidth = 16;
-var MapHeight = 16;
-var MapDrawWidth = 9;
-var MapDrawHeight = 9;
+// var MapWidth = 16;
+// var MapHeight = 16;
+// var MapDrawWidth = 9;
+// var MapDrawHeight = 9;
 // var DrawSize = 48;
+//var AnimationNum = 16;
+var MapWidth = 64;
+var MapHeight = 64;
+// var MapDrawWidth = 31;
+// var MapDrawHeight = 31;
+var MapDrawWidth = 15;
+var MapDrawHeight = 11;
 var DrawSize = 64;
-var AnimationNum = 16;
+var AnimationNum = 8;
+
 //シーンの定義
 const Scenes = {
     Field: "Field",
@@ -64,7 +72,9 @@ function init() {
 
     //マップチップ読込
     maptip = [];
-    for (var i = 0; i < 4; i++) {
+    //for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 7; i++) {
+
         maptip[i] = new Image();
         maptip[i].src = "./image/maptip" + i + ".png";
     }
@@ -78,8 +88,12 @@ function init() {
     //初期位置
     // posx = 5;
     // posy = 5;
-    spUser.posx = 12;
-    spUser.posy = 7;
+    // spUser.posx = 12;
+    // spUser.posy = 7;
+    while (map[spUser.posy][spUser.posx] != 5) {
+        spUser.posx = getRandomInt(MapWidth);
+        spUser.posy = getRandomInt(MapHeight);
+    }
     spEnemy.posx = 14;
     spEnemy.posy = 14;
     imgNpc.posx = 10;
@@ -103,6 +117,7 @@ function init() {
     scrollY = 0;
     frameCount = 0;
     currentKey = -1;
+    scene = Scenes.Field;
     player = new BattleCharacter("ユーザー", 128, 64, 64, 32);
 }
 //マップデータ生成
@@ -137,13 +152,13 @@ function devideRoom(rect, hr) {
         //親の領域
         var parentRect = new Rect(rect.x, rect.y, rect.width, divline);
         //子の領域(分割対象)
-        var childRect = new Rect(rect.x, rect.y, divline, rect.width, rect.height - divline);
+        var childRect = new Rect(rect.x, rect.y + divline, rect.width, rect.height - divline);
         //親の領域に部屋を作る
         var parentRoom = createRoom(parentRect);
         //子の領域を分割し、且つ部屋を作る(再起呼出)
         var childRoom = devideRoom(childRect, !hr);
         //親と子の部屋を接続する
-        connectRoom(parentRoom, childRoom, rect.x, divline, hr);
+        connectRoom(parentRoom, childRoom, rect.y + divline, hr);
         //親の部屋を返す
         return parentRoom;
     } else {
@@ -153,7 +168,7 @@ function devideRoom(rect, hr) {
         var childRect = new Rect(rect.x + devline, rect.y, devline, rect.height);
         var parentRoom = createRoom(parentRect);
         var childRoom = devideRoom(childRect, !hr);
-        connectRoom(parentRoom, childRoom, rect.x, devline, hr);
+        connectRoom(parentRoom, childRoom, rect.x + devline, hr);
         return parentRoom;
     }
 }
@@ -185,6 +200,7 @@ function createRoom(rect) {
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
+//部屋の接続
 function connectRoom(parentRoom, childRoom, devline, hr) {
     if (hr) {
         //親の部屋の一点をランダムに選択
@@ -197,7 +213,31 @@ function connectRoom(parentRoom, childRoom, devline, hr) {
         var maxX = Math.max(x1, x2);
 
         //マップに分割ライン上の線路を生成
-
+        for (var i = 0; minX + i <= maxX; i++) {
+            map[devline][minX + i] = 5;
+        }
+        //分割ラインから親のルームへの通路を作成
+        for (var i = 0; map[devline - i][x1] == 4; i++) {
+            map[devline - i][x1] = 5;
+        }
+        //分割ラインから子ルームへの通路を作成
+        for (var i = 1; map[devline + i][x2] == 4; i++) {
+            map[devline + i][x2] = 5;
+        }
+    } else {
+        var y1 = parentRoom.y + getRandomInt(parentRoom.height);
+        var y2 = childRoom.y + getRandomInt(childRoom.height);
+        var minY = Math.min(y1, y2);
+        var maxY = Math.max(y1, y2);
+        for (var i = 0; minY + i <= maxY; i++) {
+            map[minY + i][devline] = 5;
+        }
+        for (var i = 1; map[y1][devline - 1] == 4; i++) {
+            map[y1][devline - i] = 5;
+        }
+        for (var i = 1; map[y2][devline + i] == 4; i++) {
+            map[y2][devline + i] = 5
+        }
     }
 }
 var keyReleased = true; // キー押しっぱなし防止用
@@ -279,7 +319,8 @@ function inputCheck() {
     if (spriteHit) {
         scene = Scenes.Event;
         dispatchEvent(x, y);
-    } else if (map[y][x] == 0 || map[y][x] == 1) {
+        //} else if (map[y][x] == 0 || map[y][x] == 1) {
+    } else if (map[y][x] == 0 || map[y][x] == 1 || map[y][x] == 5) {
         //移動可能なら移動
         spUser.posx = x;
         spUser.posy = y;
@@ -359,6 +400,8 @@ function draw() {
     // );
     //スプライトの描画
     spriteList.forEach(function (sp) {
+        // 【追加】画像が読み込まれていない場合はスキップ
+        if (!sp.image || !sp.image[Math.floor(frameCount / 10) % 2]) return;
         //自キャラからの距離 ループを考慮して近い方(三項演算子)
         var x =
             Math.abs(sp.posx - spUser.posx) < Math.abs(sp.posx - spUser.posx - MapWidth)
@@ -383,13 +426,16 @@ function draw() {
     });
 
     // キャラの描画
-    g.drawImage(
-        spUser.image[Math.floor(frameCount / 10) % 2],
-        Math.floor((canvas.width - DrawSize) / 2),
-        Math.floor((canvas.height - DrawSize) / 2) - DrawSize / 6,
-        DrawSize,
-        DrawSize
-    );
+    // 【追加】画像チェック
+    if (spUser.image && spUser.image[Math.floor(frameCount / 10) % 2]) {
+        g.drawImage(
+            spUser.image[Math.floor(frameCount / 10) % 2],
+            Math.floor((canvas.width - DrawSize) / 2),
+            Math.floor((canvas.height - DrawSize) / 2) - DrawSize / 6,
+            DrawSize,
+            DrawSize
+        );
+    }
 
     if (scene == Scenes.Event) {
         // イベントメッセージの描画
@@ -573,8 +619,8 @@ class Battle {
     // 速度を見て行動順序を決める
     updateActionOrder() {
         if (
-            this.player.speed + this.getRondomInt(this.player.speed / 5) >
-            this.enemy.speed + this.getRondomInt(this.enemy.speed / 5)
+            this.player.speed + this.getRandomInt(this.player.speed / 5) >
+            this.enemy.speed + this.getRandomInt(this.enemy.speed / 5)
         ) {
             this.actionOrder[0] = this.player;
             this.actionOrder[1] = this.enemy;
@@ -589,11 +635,11 @@ class Battle {
         //ドラクエ式
         var baseDamage = Math.max(c1.atc / 2 - c2.def / 4, 0);
         //乱数を加算して返す
-        return baseDamage + this.getRondomInt(2 + baseDamage / 10);
+        return baseDamage + this.getRandomInt(2 + baseDamage / 10);
     }
 
     //制御の乱数を取得
-    getRondomInt(max) {
+    getRandomInt(max) {
         return Math.floor(Math.random() * max);
     }
 }
