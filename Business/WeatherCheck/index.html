@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>天気予報</title>
 </head>
+
 <body>
     <h1>都道府県を入力</h1>
-    <select name="prefecturesType" id="Pref">
+    <select name="prefecturesType" id="prefecture">
         <option value="0">選択してください</option>
         <option value="1">北海道</option>
         <option value="2">青森県</option>
@@ -19,8 +21,13 @@
         <option value="22">静岡県</option>
         <option value="26">京都府</option>
     </select>
-    <select name="city">
+    <select name="city" id="city">
         <option value="">選択してください</option>
     </select>
+    <div id="error" style="color:red; margin-top:8px;"></div>
+    <script src="js/api.js"></script>
+    <script src="js/address.js"></script>
+
 </body>
+
 </html>
