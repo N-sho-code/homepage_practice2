@@ -8,6 +8,7 @@ let createRect = (x,y,width,height,color) =>{
     canvasContext.fillStyle = color;
     canvasContext.fillRect(x,y,width,height);
 };// マップ設定
+let fps =30;
 let map = [
     [1,1,1,1,1, ,1,1,1,1,1 ,1,1,1,1,1 ,1,1,1,1,1, 1],
     [1,2,2,2,2, ,2,2,2,2,2 ,1,2,2,2,2 ,2,2,2,2,2, 1],
@@ -33,3 +34,18 @@ let map = [
     [1,2,1,1,1, ,2,1,1,1,1 ,1,1,1,1,1 ,1,1,1,1,1, 1],
     [1,2,1,1,1, ,2,1,1,1,1 ,1,1,1,1,1 ,1,1,1,1,1, 1],
 ];
+
+let gameLoop=()=>{
+    update()
+    draw()
+};
+
+let update = ()=>{
+    // todo
+};
+let draw = ()=>{
+    // todo
+    
+};
+
+let gameInterval = setInterval(gameLoop,1000/fps);
