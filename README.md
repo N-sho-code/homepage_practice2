@@ -32,7 +32,8 @@ https://aki28.com/
 https://youtu.be/KO0CNe-4a8g  
 ・【ゆっくり解説】ドラクエの作り方(再生リスト)  
 https://www.youtube.com/playlist?list=PL80OIWUJ1J0ETGknI9vJFfLYFEk7bvllg  
-
+・ASMR Programming - Coding Pacman - No Talking  
+https://youtu.be/GXlckaGr0Eo?si=2H6fs2Rio8_Pri7j  
 ***
 **利用素材**  
 ・ぴぽや倉庫  
