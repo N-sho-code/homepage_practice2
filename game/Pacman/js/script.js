@@ -79,6 +79,20 @@ let drawWalls = ()=>{
                         wallSpaceWidth,
                         wallInnerColor);
                 }
+                if(i>0&&map[i-1][j]==1){
+                    createRect(j*oneBlockSize+wallOffset,
+                        i*oneBlockSize,
+                        wallSpaceWidth,
+                        wallSpaceWidth+wallOffset,
+                        wallInnerColor);
+                }
+                if(i<map.length-1&&map[i+1][j]==1){
+                    createRect(j*oneBlockSize+wallOffset,
+                        i*oneBlockSize+wallOffset,
+                        wallSpaceWidth,
+                        wallSpaceWidth+wallOffset,
+                        wallInnerColor);
+                }
             }
         }
 
