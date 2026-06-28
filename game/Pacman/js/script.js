@@ -14,6 +14,9 @@ let wallColor ="#342DCA";
 let wallSpaceWidth = oneBlockSize/1.5;
 let wallOffset = (oneBlockSize - wallSpaceWidth)/2;
 let wallInnerColor = "black";
+
+const DIRECTION_RIGHT = 4;
+
 // マップ設定
 let map = [
     [1,1,1,1,1 ,1,1,1,1,1 ,1,1,1,1,1 ,1,1,1,1,1, 1],
