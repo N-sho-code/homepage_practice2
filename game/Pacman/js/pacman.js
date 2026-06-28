@@ -7,7 +7,9 @@ class Pacman {
         this.speed = speed;
     }
     moveProces() {
-        this.changeDirectionIfPossible()
+        this.changeDirectionIfPossible();
+        this.moveForwards();
+        this.checkCollision();
     }
     eat() {
 
