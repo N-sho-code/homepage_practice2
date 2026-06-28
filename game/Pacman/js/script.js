@@ -11,7 +11,7 @@ let createRect = (x,y,width,height,color) =>{
 let fps =30;
 let oneBlockSize =20;
 let wallColor ="#342DCA";
-let wallSpaceWidth = oneBlockSize/1.2;
+let wallSpaceWidth = oneBlockSize/1.5;
 let wallOffset = (oneBlockSize - wallSpaceWidth)/2;
 let wallInnerColor = "black";
 // マップ設定
@@ -95,6 +95,5 @@ let drawWalls = ()=>{
                 }
             }
         }
-
     }
 }
