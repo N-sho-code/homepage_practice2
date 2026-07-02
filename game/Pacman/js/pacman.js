@@ -51,7 +51,11 @@ class Pacman {
     }
     checkCollision() {
         let isCollided = false;
-        if () {
+        if (map[this.getMapY()][this.getMapX()] == 1
+            || map[this.getMapYRightSide()][this.getmapX()] == 1
+            || map[this.getMapY()][this.getMapXRightSide()] == 1
+            || map[this.getMapYRightSide()][this.getMapXRightSide()] == 1
+            ) {
 
         }
     }
@@ -73,9 +77,11 @@ class Pacman {
     getMapY() {
         return parseInt(this.y / oneBlockSize)
     }
-    getmapXRightSide() {
-        return parseInt((this.x * 0.99) / oneBlockSize)
+    getMapXRightSide() {
+        return parseInt((this.x * 0.9999 + oneBlockSize) / oneBlockSize)
     }
-
+    getMapYRightSide() {
+        return parseInt((this.y * 0.9999 + oneBlockSize) / oneBlockSize)
+    }
 
 }
