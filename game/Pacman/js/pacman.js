@@ -6,6 +6,8 @@ class Pacman {
         this.height = height;
         this.speed = speed;
         this.direction = DIRECTION_RIGHT;
+        this.currentFrame = 1;
+        this.frameCount = 7;
     }
     moveProces() {
         this.changeDirectionIfPossible();
@@ -55,9 +57,10 @@ class Pacman {
             || map[this.getMapYRightSide()][this.getmapX()] == 1
             || map[this.getMapY()][this.getMapXRightSide()] == 1
             || map[this.getMapYRightSide()][this.getMapXRightSide()] == 1
-            ) {
-
+        ) {
+            return true;
         }
+        return false;
     }
     checkGhostCollision() {
 
@@ -66,7 +69,7 @@ class Pacman {
 
     }
     changeAnimation() {
-
+        this.currentFrame = this.currentFrame == this.frameCount ? 1 : this.currentFrame + 1;
     }
     draw() {
 
