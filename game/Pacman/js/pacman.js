@@ -8,6 +8,10 @@ class Pacman {
         this.direction = DIRECTION_RIGHT;
         this.currentFrame = 1;
         this.frameCount = 7;
+
+        setInterval(() => {
+            this.changeAnimation()
+        }, 100);
     }
     moveProces() {
         this.changeDirectionIfPossible();
@@ -69,7 +73,8 @@ class Pacman {
 
     }
     changeAnimation() {
-        this.currentFrame = this.currentFrame == this.frameCount ? 1 : this.currentFrame + 1;
+        this.currentFrame =
+            this.currentFrame = this.currentFrame == this.frameCount ? 1 : this.currentFrame + 1;
     }
     draw() {
 
@@ -86,5 +91,5 @@ class Pacman {
     getMapYRightSide() {
         return parseInt((this.y * 0.9999 + oneBlockSize) / oneBlockSize)
     }
-
 }
+
