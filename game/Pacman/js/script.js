@@ -118,3 +118,18 @@ let createNewPacman = () => {
 
 createNewPacman();
 gameLoop();
+
+window.addEventListener("keydown",(event)=>{
+    let k = event.keyCode
+    settimeout(()=>{
+         if(k==37||k==65){//left
+            
+        }else if(k==38||k==87){//up
+
+        }else if(k==39||68){//right
+
+        }else if(k==40||k==83){//bottom
+            
+        }    
+    },1)
+})

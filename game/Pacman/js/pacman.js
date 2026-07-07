@@ -6,6 +6,7 @@ class Pacman {
         this.height = height;
         this.speed = speed;
         this.direction = DIRECTION_RIGHT;
+        this.direction=this.direction;
         this.currentFrame = 1;
         this.frameCount = 7;
 
