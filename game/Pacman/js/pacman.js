@@ -6,7 +6,7 @@ class Pacman {
         this.height = height;
         this.speed = speed;
         this.direction = DIRECTION_RIGHT;
-        this.direction=this.direction;
+        this.direction = this.direction;
         this.currentFrame = 1;
         this.frameCount = 7;
 
@@ -58,10 +58,10 @@ class Pacman {
     }
     checkCollision() {
         let isCollided = false;
-        if (map[this.getMapY()][this.getMapX()] == 1 || 
-        map[this.getMapYRightSide()][this.getMapX()] == 1 ||
-        map[this.getMapY()][this.getMapXRightSide()] == 1 ||
-        map[this.getMapYRightSide()][this.getMapXRightSide()] == 1
+        if (map[this.getMapY()][this.getMapX()] == 1 ||
+            map[this.getMapYRightSide()][this.getMapX()] == 1 ||
+            map[this.getMapY()][this.getMapXRightSide()] == 1 ||
+            map[this.getMapYRightSide()][this.getMapXRightSide()] == 1
         ) {
             return true;
         }
@@ -71,7 +71,13 @@ class Pacman {
 
     }
     changeDirectionIfPossible() {
-
+        if (this.direction == this.nextDirection) return;
+        let tempDirectuon = this.direction;
+        this.direction = this.nextDirection;
+        this.moveBackwards();
+        if (this.checkCollision()) {
+            this.moveBackwards();
+        }
     }
     changeAnimation() {
         this.currentFrame =
@@ -90,11 +96,11 @@ class Pacman {
         );
         canvasContext.drawImage(
             pacmanFramews,
-                (this.currentFrame - 1) * oneBlockSize,
-                0, oneBlockSize, oneBlockSize,
-                this.x, this.y,
-                this.width, this.height
-                );
+            (this.currentFrame - 1) * oneBlockSize,
+            0, oneBlockSize, oneBlockSize,
+            this.x, this.y,
+            this.width, this.height
+        );
         canvasContext.restore();
     }
     getMapX() {
