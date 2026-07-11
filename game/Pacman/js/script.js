@@ -57,9 +57,18 @@ let update = () => {
 
     pacman.moveProces()
 };
+
+let drawFoots = ()=>{
+    for(let i=0;i<map.langht;i++){
+        for(let j=0;j<map[0];j++){
+            if(map[i][j]==2)
+        }
+    }
+}
 let draw = () => {
     createRect(0, 0, canvas.width, canvas.height, "black");
     drawWalls();
+    drawFoots();
     pacman.draw();
 };
 
