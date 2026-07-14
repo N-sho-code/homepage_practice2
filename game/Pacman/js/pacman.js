@@ -22,7 +22,7 @@ class Pacman {
         }
     }
     eat() {
-
+        for(let i=0;)
     }
     moveBackwards() {
         switch (this.direction) {
