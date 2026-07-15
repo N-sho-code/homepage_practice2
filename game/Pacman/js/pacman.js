@@ -22,7 +22,11 @@ class Pacman {
         }
     }
     eat() {
-        for(let i=0;)
+        for(let i=0;ImageBitmap.length;i++){
+            for(let j =0;j<map[0].length;j++){
+                if(map[i][j])
+            }
+        }
     }
     moveBackwards() {
         switch (this.direction) {
