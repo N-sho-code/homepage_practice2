@@ -22,12 +22,13 @@ class Pacman {
         }
     }
     eat() {
-        for(let i=0;i<map.length;i++){
-            for(let j =0;j<map[0].length;j++){
-                if(map[i][j]==2&&
-                    this.getMapX()==j&&this.getMapY()==i){
-                        map[i][j]=3;
-                        score++;                    
+        for (let i = 0; i < map.length; i++) {
+            for (let j = 0; j < map[0].length; j++) {
+                if (map[i][j] == 2 &&
+                    this.getMapX() == j &&
+                    this.getMapY() == i) {
+                    map[i][j] = 3;
+                    score++;
                 }
             }
         }
@@ -87,7 +88,7 @@ class Pacman {
         if (this.checkCollision()) {
             this.moveBackwards();
             this.direction = tempDirectuon
-        }else{
+        } else {
             this.moveBackwards();
         }
     }
