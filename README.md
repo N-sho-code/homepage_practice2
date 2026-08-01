@@ -36,7 +36,7 @@ https://www.youtube.com/playlist?list=PL80OIWUJ1J0ETGknI9vJFfLYFEk7bvllg
 ・ASMR Programming - Coding Pacman - No Talking  
 https://youtu.be/GXlckaGr0Eo?si=2H6fs2Rio8_Pri7j  
 ・ASMR Programming - Coding Snake A.I. - No Talking  
-https://youtu.be/d6-8Y9kZ71k?si=fn5nCMaLDjgzupV2  
+https://youtu.be/d6-8Y9kZ71k?si=fn5nCMaLDjgzupV2    
 ***
 **利用素材**  
 ・ぴぽや倉庫  
